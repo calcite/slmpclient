@@ -9,16 +9,16 @@ from .util import Error, WrongIpAddress, ClientOpenErr
 
 
 class SLMPClient(object):
-    def __init__(self, ip_addr=None, port=None, protocol=True):
+    def __init__(self, ip_addr=None, port=None, tcp=1):
         """
         Initialize SLMP client.
         :param ip_addr: target IP address.
         :param port: target port.
-        :param protocol: tcp=True/udp=False.
+        :param tcp: tcp=1/udp=0.
         """
         self._ip_addr = ip_addr
         self._port = port
-        self._protocol = protocol
+        self._tcp = tcp
         self._socket = None
         self._response = None
         self.logger = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ class SLMPClient(object):
         If TCP protocol is used, socket is connected to server.
         """
         try:
-            if self._protocol is True:     # When TCP protocol is used
+            if self._tcp==1:     # When TCP protocol is used
                 self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self._socket.connect((self._ip_addr, self._port))
                 self.logger.info("socket opened TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
@@ -61,7 +61,7 @@ class SLMPClient(object):
         :param packet: packet created with C function SLMP_MakePacketStream.
         """
         try:
-            if self._protocol is True:     # When TCP protocol is used
+            if self._tcp==1:     # When TCP protocol is used
                 self._socket.sendall(packet)
                 self.logger.info("sent TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             else:       # When UDP protocol is used
@@ -77,7 +77,7 @@ class SLMPClient(object):
         try:
             # Receive at most 512 bytes of data
             self._response = self._socket.recv(512)   # TODO 18000 was before
-            if self._protocol is True:
+            if self._tcp==1:
                 self.logger.info("recv TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             else:
                 self.logger.info("recv UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))

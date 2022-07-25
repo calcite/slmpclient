@@ -10,7 +10,7 @@ c_module = Extension('slmpclient.clib.slmp_c',
 
 setup(
     name='slmpclient',
-    version='2.0.0',
+    version='2.0.1',
     packages=['slmpclient'],
     author='Roland Zitny',
     long_description=long_description,

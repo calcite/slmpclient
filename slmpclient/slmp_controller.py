@@ -6,7 +6,7 @@ Packet is created by calling c function inside python script.
 import os, glob
 import ctypes
 import logging
-from .util import Error, ClibImportErr, ClibPacketErr
+from .util import ClibImportErr, ClibPacketErr
 from .const import MAX_FRAME_SIZE, FrameType
 
 # SLMP.h and SLMP.c contains original SLMP library written in c language.

@@ -5,7 +5,7 @@ TCP or UDP communication protocol.
 """
 import socket
 import logging
-from .util import Error, WrongIpAddress, ClientOpenErr
+from .util import WrongIpAddress, ClientOpenErr
 
 
 class SLMPClient(object):
@@ -37,10 +37,10 @@ class SLMPClient(object):
             if self._tcp==1:     # When TCP protocol is used
                 self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self._socket.connect((self._ip_addr, self._port))
-                self.logger.info("socket opened TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.debug("socket opened TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             else:       # When UDP protocol is used
                 self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                self.logger.info("socket opened UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.debug("socket opened UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
         except socket.error:
             self.logger.warning("ERR: socket cant be opened IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             raise ClientOpenErr
@@ -51,7 +51,7 @@ class SLMPClient(object):
         """
         try:
             self._socket.close()
-            self.logger.info("socket closed IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+            self.logger.debug("socket closed IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
         except socket.error:
             self.logger.warning("ERR: socket cant be closed IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
 

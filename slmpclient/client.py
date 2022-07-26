@@ -37,10 +37,10 @@ class SLMPClient(object):
             if self._tcp==1:     # When TCP protocol is used
                 self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self._socket.connect((self._ip_addr, self._port))
-                self.logger.debug("socket opened TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.info("socket opened TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             else:       # When UDP protocol is used
                 self._socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                self.logger.debug("socket opened UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.info("socket opened UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
         except socket.error:
             self.logger.warning("ERR: socket cant be opened IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             raise ClientOpenErr
@@ -51,7 +51,7 @@ class SLMPClient(object):
         """
         try:
             self._socket.close()
-            self.logger.debug("socket closed IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+            self.logger.info("socket closed IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
         except socket.error:
             self.logger.warning("ERR: socket cant be closed IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
 
@@ -63,10 +63,10 @@ class SLMPClient(object):
         try:
             if self._tcp==1:     # When TCP protocol is used
                 self._socket.sendall(packet)
-                self.logger.info("sent TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.debug("sent TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             else:       # When UDP protocol is used
                 self._socket.sendto(packet, (self._ip_addr, self._port))
-                self.logger.info("sent UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.debug("sent UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
         except socket.error:
             self.logger.warning("ERR: sent IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
 
@@ -78,9 +78,9 @@ class SLMPClient(object):
             # Receive at most 512 bytes of data
             self._response = self._socket.recv(512)   # TODO 18000 was before
             if self._tcp==1:
-                self.logger.info("recv TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.debug("recv TCP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             else:
-                self.logger.info("recv UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
+                self.logger.debug("recv UDP IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
             return self._response
         except socket.error:
             self.logger.warning("ERR: recv IP_ADDR: {}  PORT: {}".format(self._ip_addr, self._port))
